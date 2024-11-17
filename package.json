@@ -1,0 +1,26 @@
+{
+  "name": "pms_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+     "test": "echo \"Error: no test specified\" && exit 1",
+     "start":"node index.js",
+     "dev":"nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chaudhariGaurav07/Practical-Management-System.git"
+  },
+  "author": "Gaurav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chaudhariGaurav07/Practical-Management-System/issues"
+  },
+  "homepage": "https://github.com/chaudhariGaurav07/Practical-Management-System#readme",
+  "keywords": [],
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
