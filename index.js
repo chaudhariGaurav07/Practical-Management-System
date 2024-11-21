@@ -6,7 +6,7 @@ import express from "express";
 import feedbackRoutes from "./routes/feedbackRouts.js"
 
 // define port number
-const PORT = 3010;
+const PORT = 3000;
 // initializes an Express application and assigns it to the app variable
 const app = express();
 
@@ -16,11 +16,7 @@ app.use(express.json());//middleware
 // initializes the dotenv package and loads the environment variables from a .env file into process.env
 dotenv.config();
 
-app.use("/api/v1",feedbackRoutes);
-
-  
-  
-
+app.use("/api",feedbackRoutes);
 
 // calling dbconnect
 dbConnect();

@@ -2,9 +2,8 @@ import { createAdmin,createStudent,createTeacher,getAllUsers } from "../controll
 import { createSubject,getSubjects } from "../controller/subjectController.js";
 import { createPractical,getAllPracticals } from "../controller/practicalController.js";
 import { getEnrollmentById,createEnrollment,updateEnrollment,deleteEnrollment, getAllEnrollments } from "../controller/enrollController.js";
-const router = express.Router()
+    const router = express.Router()
 import express from "express";
-// const express = require("express")
 
 router.post('/admin/create',createAdmin)
 router.post('/teacher/create',createTeacher)
