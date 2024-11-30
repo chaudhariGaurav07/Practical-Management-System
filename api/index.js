@@ -15,6 +15,6 @@ app.use("/gaurav", router);
 dbConnect();
 
 app.listen(PORT, () => {
-  console.log("Server is running at port:", PORT);
+  console.log(`server running at port ${PORT}`);
 });
 

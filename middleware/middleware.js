@@ -22,7 +22,7 @@ export const isTeacher=async(req,res,next)=>{
     try{  
        const {email}= req.body;  
        const user=await User.findOne({email});  
-        if(user && user.role==='Teacher')  
+        if(user && user.role ==='Teacher')  
         {  
             next();  
         }  

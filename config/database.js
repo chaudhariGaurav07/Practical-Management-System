@@ -6,12 +6,12 @@ dotenv.config();
 
 const dbConnect = async () => {
     try {
-        const dbUri = process.env.MONGODB_URL;
-        if (!dbUri) {
-            throw new Error('MONGODB_URL is not defined in the .env file');
+        const url = process.env.MONGODB_URL;
+        if (!url) {
+            throw new Error('MONGODB_URL is not defined in file of env');
         }
         
-        await mongoose.connect(dbUri);
+        await mongoose.connect(url);
         console.log("MongoDB connected successfully");
     } catch (error) {
         console.log("Connection failed", error);
