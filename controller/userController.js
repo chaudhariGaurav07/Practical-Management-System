@@ -1,82 +1,78 @@
-import User from "../models/user.js";
+import User from '../models/user.js';
 
-export const createAdmin = async(req,res) => {
+export const createUser = async (req, res) => {
     try {
-         console.log("Request body:", req.body); // Debugging
-        const {name,email,password} = req.body;
+        const { name, email, password, role } = req.body;
+        
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "Email already exists" });
+        }
+
         const user = new User({
             name,
             email,
             password,
-            role:"Admin"
-        })
-        const saveUser = await user.save();
+            role
+        });
 
-        res.json({
-           saveUser,
-           message:"user connected succesfully"
-        })
+        const savedUser = await user.save();
+        res.status(201).json({
+            message: "User created successfully",
+            user: savedUser
+        });
     } catch (error) {
-        console.log(error)
-         error:"error occured"
+        res.status(500).json({
+            message: "Error creating user",
+            error: error.message
+        });
     }
-}
+};
 
-export const createTeacher = async (req,res)=> {
+export const getAllUsers = async (req, res) => {
     try {
-         const {name, email, password}=req.body;
-
-         const user = new User({
-         name,
-         email,
-         password,
-         role: "Teacher"
-    })
-   const saveUser = await user.save();
-
-   res.json({
-      saveUser,
-      message:"Teacher connected succesfully"
-   })
+        const users = await User.find();
+        res.status(200).json(users);
     } catch (error) {
-        error:"error occured"
+        res.status(500).json({
+            message: "Error retrieving users",
+            error: error.message
+        });
     }
-}
+};
 
-export const createStudent = async (req,res)=> {
+export const getAllAdmins = async (req, res) => {
     try {
-         const {name, email, password}=req.body;
-
-         const user = new User({
-         name,
-         email,
-         password,
-         role: "Student"
-    })
-   const saveUser = await user.save();
-
-   res.json({
-      saveUser,
-      message:"student connected succesfully"
-   })
+        const admins = await User.find({ role: 'Admin' });
+        res.status(200).json(admins);
     } catch (error) {
-        error:"error occured"
+        res.status(500).json({
+            message: "Error retrieving admins",
+            error: error.message
+        });
     }
-}
+};
 
-
-
-
-export const getAllUsers = async(req,res)=>{
+export const getAllTeachers = async (req, res) => {
     try {
-      const getusers=await User.find()
-      res.json({
-        getusers
-      })
+        const teachers = await User.find({ role: 'Teacher' });
+        res.status(200).json(teachers);
     } catch (error) {
-      res.json({
-        error:"Cannot fetch data"
-      })
-      console.log(error)
+        res.status(500).json({
+            message: "Error retrieving teachers",
+            error: error.message
+        });
     }
-  }
+};
+
+export const getAllStudents = async (req, res) => {
+    try {
+        const students = await User.find({ role: 'Student' });
+        res.status(200).json(students);
+    } catch (error) {
+        res.status(500).json({
+            message: "Error retrieving students",
+            error: error.message
+        });
+    }
+};

@@ -1,41 +1,42 @@
-import subjectModel from "../models/subject.js";
+import Subject from '../models/subject.js';
+import User from '../models/user.js';
 
 export const createSubject = async (req, res) => {
     try {
-        const { name, department, credits, instructor, prerequisites } = req.body;
+        const { name, code, createdBy } = req.body;
 
-        const subjectObj = new subjectModel({
+        const user = await User.findById(createdBy);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const subject = new Subject({
             name,
-            department,
-            credits,
-            instructor,
-            prerequisites,
+            code,
+            createdBy
         });
 
-        const savedSubject = await subjectObj.save();
-
-        res.json({
-            savedSubject,
+        const savedSubject = await subject.save();
+        res.status(201).json({
             message: "Subject created successfully",
+            subject: savedSubject
         });
     } catch (error) {
-        res.json({
-            error: "An error occurred while creating the subject",
+        res.status(500).json({
+            message: "Error creating subject",
+            error: error.message
         });
-        console.error(error);
     }
 };
 
-export const getSubjects = async (req, res) => {
+export const getAllSubjects = async (req, res) => {
     try {
-        const subjects = await subjectModel.find().populate("prerequisites"); // Populate prerequisites for better details
-        res.json({
-            subjects,
-        });
+        const subjects = await Subject.find().populate('createdBy');
+        res.status(200).json(subjects);
     } catch (error) {
-        res.json({
-            error: "Cannot fetch subjects",
+        res.status(500).json({
+            message: "Error retrieving subjects",
+            error: error.message
         });
-        console.error(error);
     }
 };

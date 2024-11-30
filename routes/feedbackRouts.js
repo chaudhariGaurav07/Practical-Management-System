@@ -1,26 +1,22 @@
-import { createAdmin,createStudent,createTeacher,getAllUsers } from "../controller/userController.js";
-import { createSubject,getSubjects } from "../controller/subjectController.js";
-import { createPractical,getAllPracticals } from "../controller/practicalController.js";
-import { getEnrollmentById,createEnrollment,updateEnrollment,deleteEnrollment, getAllEnrollments } from "../controller/enrollController.js";
-    const router = express.Router()
-import express from "express";
+import express from 'express';
+import { createUser, getAllUsers, getAllAdmins, getAllTeachers, getAllStudents } from '../controller/userController.js';
+import { createSubject, getAllSubjects } from '../controller/subjectController.js';
+import { createPractical, getAllPracticals, enrollInPractical } from '../controller/practicalController.js';
+import { isAdmin, isTeacher, isStudent, isAdminOrTeacher } from '../middleware/middleware.js';
 
-router.post('/admin/create',createAdmin)
-router.post('/teacher/create',createTeacher)
-router.post('/student/create',createStudent)
-router.post('/subject/create',createSubject)
-router.post('/practical/create',createPractical)
-router.post('/enrollment/create',createEnrollment)
+const router = express.Router();
 
-router.get('/user/get',getAllUsers)
-router.get('/subject/get',getSubjects)
-router.get('/practical/get',getAllPracticals)
-router.get('/enrollment/get',getAllEnrollments)
-router.get('/enrollment/get/:id',getEnrollmentById)
+router.post('/users/create', createUser);
+router.get('/users/get', isAdmin, getAllUsers);
+router.get('/admins/get', isAdmin, getAllAdmins);
+router.get('/teachers/get', isAdmin, getAllTeachers);
+router.get('/students/get', isAdminOrTeacher, getAllStudents);
 
-router.put('/enrollment/put/:id',updateEnrollment)
-router.delete('/enrollment/delete/:id',deleteEnrollment)
+router.post('/subject/create', isAdmin, createSubject);
+router.get('/subjects/get', getAllSubjects);
 
-
+router.post('/practicals/create', isTeacher, createPractical);
+router.get('/practicals/', getAllPracticals);
+router.post('/practicals/enroll', isStudent, enrollInPractical);
 
 export default router;

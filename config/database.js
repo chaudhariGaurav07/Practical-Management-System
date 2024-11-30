@@ -1,16 +1,21 @@
-// imports the mongoose package from the node_modules
 import mongoose from "mongoose";
+import dotenv from 'dotenv';
 
-// database connectivity
+
+dotenv.config();
+
 const dbConnect = async () => {
-    try{
-        await mongoose.connect(process.env.MONGODB_URL)
-        console.log("mongodb connect successfuly");
-    }catch(error){
-        console.log("connenction failed", error)
+    try {
+        const dbUri = process.env.MONGODB_URL;
+        if (!dbUri) {
+            throw new Error('MONGODB_URL is not defined in the .env file');
+        }
+        
+        await mongoose.connect(dbUri);
+        console.log("MongoDB connected successfully");
+    } catch (error) {
+        console.log("Connection failed", error);
     }
-    
-}
+};
 
-// exports this function as the default export so it can be imported elsewhere in the project
 export default dbConnect;

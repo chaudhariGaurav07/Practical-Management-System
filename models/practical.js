@@ -1,25 +1,32 @@
 import mongoose from "mongoose";
 
-const practicalSchema = mongoose.Schema({
-  subject: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Subject", // Reference to the Subject model
-    required: true,
-  },
-  instructor: {
-    type: String, // Name of the instructor overseeing the practical
-    required: true,
-  },
-  description: {
-    type: String, //  description of the practical
-    required: true,
-  },
-  materials: [
-    {
-      type: String, // List of material names or URLs (PDFs, videos)
+const practicalSchema = new mongoose.Schema({
+    subjectId: {  
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Subject',
+        required: true
     },
-  ],
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    enrolledStudents: {  
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User',
+        required: true
+    },
 });
 
-const practicalModel = mongoose.model("Practical", practicalSchema);
-export default practicalModel;
+const Practical = mongoose.model("Practical", practicalSchema);
+
+export default Practical;
